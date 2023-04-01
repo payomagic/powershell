@@ -19,9 +19,19 @@ foreach ($interface in $data) {
     Set-DnsClientServerAddress -InterfaceAlias $interfaceName -ServerAddresses $dns
 
     # Configure VLAN
-    $adapter = Get-NetAdapter -InterfaceAlias $interfaceName
-    $vlanSettings = $adapter | Get-NetAdapterVlan | Where-Object {$_.VlanID -eq $vlan}
-    if (!$vlanSettings) {
-        Add-NetLbfoTeamNic -TeamNIC $adapter -VlanID $vlan
-    }
+    #$adapter = Get-NetAdapter -InterfaceAlias $interfaceName
+    #$vlanSettings = $adapter | Get-NetAdapterVlan | Where-Object {$_.VlanID -eq $vlan}
+    #if (!$vlanSettings) {
+    #    Add-NetLbfoTeamNic -TeamNIC $adapter -VlanID $vlan
+    #}
 }
+
+#Here's an example of how the Excel file should be formatted:
+
+#InterfaceName	IPAddress	SubnetMask	Gateway	DNS	VLAN	Hostname	Domain
+#Ethernet1	192.168.1.10    22	192.168.1.1	8.8.8.8	100	Server1	domain.local
+#Ethernet2	192.168.2.10	24	192.168.2.1	8.8.8.8	200	Server2	domain.local
+#Ethernet3	192.168.3.10	24	192.168.3.1	8.8.8.8	300	Server3	domain.local
+#Ethernet4	192.168.4.10	24	192.168.4.1	8.8.8.8	400	Server4	domain.local
+#Ethernet5	192.168.5.10	24	192.168.5.1	8.8.8.8	500	Server5	domain.local
+
