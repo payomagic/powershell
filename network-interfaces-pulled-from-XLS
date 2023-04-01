@@ -1,0 +1,27 @@
+# Load Excel file
+$file = "C:\network_data.xlsx"
+$sheet = "Sheet1"
+$data = Import-Excel -Path $file -WorksheetName $sheet
+
+# Loop through network interfaces and configure settings
+foreach ($interface in $data) {
+    $interfaceName = $interface.InterfaceName
+    $ipAddress = $interface.IPAddress
+    $subnetMask = $interface.SubnetMask
+    $gateway = $interface.Gateway
+    $dns = $interface.DNS
+    $vlan = $interface.VLAN
+
+    # Configure network settings
+    New-NetIPAddress -InterfaceAlias $interfaceName -IPAddress $ipAddress -PrefixLength $subnetMask
+    Set-NetIPInterface -InterfaceAlias $interfaceName -InterfaceMetric 10
+    Set-NetIPInterface -InterfaceAlias $interfaceName -DefaultGateway $gateway
+    Set-DnsClientServerAddress -InterfaceAlias $interfaceName -ServerAddresses $dns
+
+    # Configure VLAN
+    $adapter = Get-NetAdapter -InterfaceAlias $interfaceName
+    $vlanSettings = $adapter | Get-NetAdapterVlan | Where-Object {$_.VlanID -eq $vlan}
+    if (!$vlanSettings) {
+        Add-NetLbfoTeamNic -TeamNIC $adapter -VlanID $vlan
+    }
+}
