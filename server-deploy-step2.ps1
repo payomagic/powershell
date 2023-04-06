@@ -70,6 +70,10 @@ function NewForestInstall {
 				# Create a .(root) DNS zone to prevent external name resolution
 				Add-DnsServerPrimaryZone -Name "." -ZoneFile "root.dns" -DynamicUpdate None
 				
+				pause 
+				
+				Restart-Computer
+				
 				}
 			}
 }
