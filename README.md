@@ -5,7 +5,7 @@ powershell snippets and apps for OS deployment, after-install and management
 
 ``Set-ExecutionPolicy RemoteSigned``
 
-### the whole Server Deploy script is consisting of 3 parts / 2 reboots are needed.
+### the whole Server Deploy script is consisting of 3 parts / 2 reboots are needed (automated with Scheduled Task)
 https://github.com/payomagic/powershell/blob/main/server-deploy-prerequisites-step1.ps1
 
 https://github.com/payomagic/powershell/blob/main/server-deploy-step2.ps1
