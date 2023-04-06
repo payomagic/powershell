@@ -22,11 +22,11 @@
 # Whole installation should take approx 30mins alltogether
 
 $Host_Name = Read-Host -Prompt " Insert Hostname as per NETPLAN : "
-$netbdisQ = Read-Host -Prompt "Do you want to disable NETBIOS over TCP/IP (used on 800xA servers only)? yes/no"
+$netbdisQ = Read-Host -Prompt "Do you want to disable NETBIOS over TCP/IP (used on servers only)? yes/no"
 $disISATAPQ = Read-Host -Prompt "Do you want to disable ISATAP (IPv6)? yes/no"
 $ipsetQ = Read-Host -Prompt "Do you wish to setup networking? If you choose yes, you will be asked more questions later! yes/no"
 $InstallRolesQ = Read-Host -Prompt "Do you wish to install Server Roles Active Directory Domain Services and DNS Services? yes/no"
-$LocalAdminQ = Read-Host -Prompt "Do you want to create a new Local Admin user :Admin: with password: LocAdm800! ? "
+$LocalAdminQ = Read-Host -Prompt "Do you want to create a new Local Administrator user :AdminLocal: with password: P@ssw0rd! ?"
 
 # Local Admin add win srvr 2022, IoT win 10
 #
@@ -39,19 +39,22 @@ function CreateLocalAdmin {
 		Write-Host " Setting up local administrator user == Admin " -ForegroundColor Yellow
 		Write-Host " "
 
-		net user Admin p@ssw0rd! /ADD /PASSWORDCHG:NO
-		WMIC useraccount WHERE "Name='Admin'" SET PasswordExpires=FALSE
-		net localgroup administrators Admin /add
-		net localgroup Users Admin /DELETE
+		net user AdminLocal p@ssw0rd! /ADD /PASSWORDCHG:NO
+		WMIC useraccount WHERE "Name='AdminLocal'" SET PasswordExpires=FALSE
+		net localgroup administrators AdminLocal /add
+		net localgroup Users AdminLocal /DELETE
 
 		Write-Host " "
 		Write-Host " =============================================== "
-		Write-Host "User Admin added to Local Administrators with password (insecure)"  -ForegroundColor Green
+		Write-Host "User AdminLocal added to Local Administrators with password (insecure)"  -ForegroundColor Green
 		Write-Host " "
 		}
 }
 
 CreateLocalAdmin
+
+
+
 
 # Time Zone setting
 #
@@ -287,11 +290,10 @@ function Enable-PrintSharingDiscoverOpt {
 	Set-Service SSDPSRV -startuptype "Automatic"
 	Start-Service -name FDResPub, upnphost, dnscache, SSDPSRV
 
-	netsh advfirewall firewall set rule group=”Network discovery” new enable=yes > $null
+	netsh advfirewall firewall set rule group="Network discovery" new enable=yes > $null
 	netsh advfirewall firewall set rule group="File and Printer sharing" new enable=yes > $null
 	
 	Write-Host " "
-	#Write-Host " In case of error - start powershell as administrator! "
 	Write-Host " =============================================== "
 	Write-Host "File and Printer Sharing Enabled." -Foreground Green
 	Write-Host "Network Discovery Enabled." -Foreground Green
@@ -412,9 +414,9 @@ function IPNetworkSetup {
 } 
 #End of choice 1 = manual network setup
 
-"2" {
-Write-Host " Omitted / in personal repo "
-}
+	"2" {
+	Write-Host " Completely Omitted "
+	}
 
 
 	"3" {
