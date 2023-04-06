@@ -1,19 +1,27 @@
+#Requires -Version 5.0
+#Requires -Modules ActiveDirectory
+
 <#
     .SYNOPSIS
         Install / Setup pre-requisites for a System8 installatikon, network partly omitted
+
     .DESCRIPTION
     set Local Admin, Timezone, Hostname, Disable Server Manager autostart, Disable IE ESC, Enable RDP, Disable NETBIOS (optional),
     Disable IPv6, Enable File and Printer sharing, Add firewall rules on some hosts, Set task after restart,
+    
     .NOTES
         I assume no liability for the function, 
         the use and the consequences of the use of this freely available script.
         PowerShell is a product of Microsoft Corporation.
         payomagic 2023/3
+    
     .COMPONENT
         Requires Module ActiveDirectory
+    
     .LINK
         https://github.com/payomagic/powershell
-   .Parameter -all parameters specified in the script
+    
+    .Parameter -all parameters specified in the script
 #>
 
 
